@@ -65,6 +65,7 @@ for product_id, product in products.items():
 
 
 
+
 #TODO
 add all keys and search with one query for pricing and quantity
 
