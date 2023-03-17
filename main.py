@@ -64,6 +64,7 @@ for product_id, product in products.items():
     products[product_id]['alabala'] = 'venci'
 
 
+
 #TODO
 add all keys and search with one query for pricing and quantity
 
