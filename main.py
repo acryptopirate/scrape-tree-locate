@@ -24,7 +24,7 @@ def login():
 def search_more_images(original_image):
     image_counter = 1
     images_found = []
-    print(original_image)
+
     if original_image:
         original_image = "https://store.treelocate.com" + original_image
         while True:
@@ -34,8 +34,7 @@ def search_more_images(original_image):
                 image_counter += 1
             else:
                 break
-    print('IMAGES FOUND')
-    print(images_found)
+
     return images_found
 
 
@@ -54,8 +53,8 @@ if __name__ == '__main__':
         datefmt='%Y-%m-%d %H:%M:%S')
     tree_locate_graph = 'https://store.treelocate.com/api/graph'
     products_per_page = 18
-    run_every_x_hours = 0
-    sleep_interval = 0
+    run_every_x_hours = 6
+    sleep_interval = 15
     categories = [
         "c4830e60-65ec-4d2a-84bf-90d01f03c5a5",
         "b0d74de4-8274-4e8c-bc3a-6b6d159cc7df",
@@ -138,15 +137,13 @@ if __name__ == '__main__':
             logging.info(f'{i+1}/{len(product_list_data)}')
             products[product_list_data[i]['id']]['price'] = product_list_data[i]['price']
             products[product_list_data[i]['id']]['inventory'] = product_list_data[i]['inventory']
-            print('CHECK IMAGES')
 
             if products[product_list_data[i]['id']]['image']:
-                print(products[product_list_data[i]['id']])
                 products[product_list_data[i]['id']]['images'] = search_more_images(products[product_list_data[i]['id']]['image']['large'])
             else:
                 products[product_list_data[i]['id']]['images'] = []
 
-        f = open(f'{datetime.datetime.now()}.csv', 'w+')
+        f = open(f'archives/{datetime.datetime.now()}.csv', 'w+')
         writer = csv.writer(f)
         for product_id, product in products.items():
             writer.writerow([
