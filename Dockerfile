@@ -1,7 +1,9 @@
 FROM python:3.9
 
 RUN mkdir /code
+RUN mkdir /code/archives
 WORKDIR /code
+
 
 ADD main.py .
 ADD requirements.txt .
