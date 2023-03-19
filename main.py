@@ -10,7 +10,7 @@ import datetime
 
 
 def login():
-    request_login = requests.post(tree_locate_graph, data=raw_login, headers=headers)
+    request_login = requests.post(tree_locate_graph, data=raw_login, headers=headers, proxies=proxies)
 
     if (request_login.status_code != 200):
         logging.info(f'Login ERROR, status code {request_login.status_code}')
@@ -29,7 +29,7 @@ def search_more_images(original_image):
         original_image = "https://store.treelocate.com" + original_image
         while True:
             image = original_image.replace("_1", f"_{image_counter}")
-            if (requests.head(image, headers=headers, timeout=10).status_code == 200):
+            if (requests.head(image, headers=headers, timeout=10, proxies=proxies).status_code == 200):
                 images_found.append(image)
                 image_counter += 1
             else:
@@ -73,7 +73,6 @@ if __name__ == '__main__':
         "13f0cc99-d47d-4db8-8a4b-f2916300097b",
         "607c8b76-a53c-4a86-9789-e16c39566be3",
         "c8990b3f-3ed8-4038-8e6e-530a64023ec0",
-
     ]
 
     while True:
@@ -90,15 +89,15 @@ if __name__ == '__main__':
         raw_category_list = "{\"query\":\" query ProductListPage( $id:ID!, $options:ProductListPageProductsLoadOptions!, $loadLargeImages:Boolean!, $loadCategories:Boolean=false, ){ pages{ productList(id:$id){ metaTitle metaDescription pageTitle description preset@toVariable(name:\\\"preset\\\") products(options:$options){ products{  id title image{ small mediumSmall large @include(if:$loadLargeImages) } url hasVariants uom{id} uoms{ id description@requireAbility(ability:VIEW_UNIT_OF_MEASURE) minimumQuantity maximumQuantity defaultQuantity quantityStep } stockLevels{ outOfStock lowStock maxStockNumber } specifications(filter:FOR_LIST){ key value  } categoriesPaths @include(if:$loadCategories){ categories{name} }  variantComponentGroups@whenEquals(variable:\\\"preset\\\",value:\\\"ListB2B\\\"){ id } }  facets{ items{ name title displayType ... on RangeFacet{ fieldType minValue maxValue } ... on ListFacet{ sortDescending crawlable values{ title textTitle count value selected } } } multiSelect } totalCount } defaultSorting{ field ascending } sortingEnabled defaultViewMode viewModeSwitchEnabled showThumbnails pagingType backgroundColor backgroundImage headerContent{...rows} footerContent{...rows} } } }fragment rows on RowContentElement{ id fullWidth background{ color desktopImage mobileImage imageAltText video fullWidth hideImageOnMobile alignment } border{ color radius style width } spacing{ margin padding hideSpaces } rowAnimation verticalAlignment attributes{ id className } minHeight{ desktop mobile tablet } heroEffect{ altLogo altSmallLogo headerOnTop headerTextColor showScrolldownIcon mutedSound imageEffect } columns{ id colspan{sm md lg} background{ color desktopImage mobileImage imageAltText video hideImageOnMobile alignment } border{ color radius style width } padding columnAnimation contentOrientation verticalAlignment horizontalAlignment attributes{ id className } minHeight{ desktop mobile tablet } contentBlocks{ id name packId model horizontalAlignment verticalSelfAlignment stretchHeight stretchWidth spacing{ margin padding } minHeight{ desktop mobile tablet } minWidth{ desktop mobile tablet } } } }\",\"variables\":{\"id\":\"$CATEGORY_ID$\",\"options\":{\"page\":{\"index\":$PAGE_INDEX$}},\"specificationFilter\":\"FOR_LIST\",\"loadLargeImages\":true,\"loadCategories\":true}}"
         raw_product_check = "{\"query\":\" query CalculatedProducts($options:ProductsLoadOptions!){ catalog{ products(options:$options){ products{ id price listPrice priceExtraFields{ ...priceInfoExtraField } inventory isOrderable@requireAbility(ability:ORDER_PRODUCTS) uom{id} variantComponentGroups{ id }  productConfiguratorInfo{isProductConfigurable}  } } } } fragment priceInfoExtraField on PriceInfoExtraField{ name ...on PricePriceInfoExtraField{price} ...on PercentagePriceInfoExtraField{percentage} }\",\"variables\":{\"options\":{\"ids\": $PRODUCT_ID_LIST$ ,\"page\":{\"size\":2000,\"index\":0}}}}"
 
+        proxies = {
+            "http": "http://14ab05e60b7e7:f3be3368dd@45.133.56.90:12323",
+            "http": "http://14ab05e60b7e7:f3be3368dd@2.56.186.98:12323",
+            "http": "http://14ab05e60b7e7:f3be3368dd@166.0.131.44:12323",
+            "http": "http://14ab05e60b7e7:f3be3368dd@203.17.123.151:12323",
+            "http": "http://14ab05e60b7e7:f3be3368dd@206.206.65.161:12323"
+        }
 
-        # proxies = {
-        #     "http": "venksta:wifisky10@geo.iproyal.com:12321"
-        # }
-        #
-        # print(requests.get("https://api.ipify.org/?format=json", proxies=proxies).text)
-        # exit()
-        #
-        # curl 'https://api.ipify.org?format=json' -x http://venksta:wifisky10@geo.iproyal.com:12321
+#        curl 'https://api.ipify.org?format=json' -x http://venksta:wifisky10@geo.iproyal.com:12321
 
         login()
 
@@ -108,7 +107,7 @@ if __name__ == '__main__':
             logging.info(f'Enter {category} category')
             while True:
                 category_request = raw_category_list.replace("$CATEGORY_ID$", category).replace("$PAGE_INDEX$", str(page_iterator))
-                request_category = requests.post(tree_locate_graph, data=category_request, headers=headers, timeout=10)
+                request_category = requests.post(tree_locate_graph, data=category_request, headers=headers, timeout=10, proxies=proxies)
                 category_data = json.loads(request_category.text)
                 total_category_pages = math.ceil(category_data['data']['pages']['productList']['products']['totalCount'] / products_per_page)
                 logging.info(f'Scraping {page_iterator+1}/{total_category_pages} pages')
@@ -130,7 +129,7 @@ if __name__ == '__main__':
         logging.info(f'Getting detail product info for {len(products.keys())} items')
         for products_split in split_dict(products, 20):
             product_list_request = raw_product_check.replace("$PRODUCT_ID_LIST$", json.dumps(list(products_split.keys())))
-            request_product_list = requests.post(tree_locate_graph, data=product_list_request, headers=headers, timeout=10)
+            request_product_list = requests.post(tree_locate_graph, data=product_list_request, headers=headers, timeout=10, proxies=proxies)
             product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
             time.sleep(sleep_interval)
         logging.info(f'Received detail product info for {len(product_list_data)} items')
@@ -190,6 +189,6 @@ if __name__ == '__main__':
         f.close()
 
         logging.info(f'Going to sleep for {run_every_x_hours} hours, then restart')
-        #time.sleep(run_every_x_hours * 60 * 60)
+        time.sleep(run_every_x_hours * 60 * 60)
         exit()
 
