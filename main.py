@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
         product_list_data = []
         logging.info(f'Getting detail product info for {len(products.keys())} items')
-        for products_split in split_dict(products, 5):
+        for products_split in split_dict(products, 20):
             product_list_request = raw_product_check.replace("$PRODUCT_ID_LIST$", json.dumps(list(products_split.keys())))
             request_product_list = requests.post(tree_locate_graph, data=product_list_request, headers=headers, timeout=10)
             product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
