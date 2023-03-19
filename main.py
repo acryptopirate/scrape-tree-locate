@@ -145,25 +145,49 @@ if __name__ == '__main__':
 
         f = open(f'archives/{datetime.datetime.now()}.csv', 'w+')
         writer = csv.writer(f)
+        writer.writerow(["Handle", "Title", "Body(HTML)", "Vendor", "Product Category", "Type", "Tags", "Published",
+                         "Variant SKU", "Variant Inventory Tracker", "Variant Inventory Qty", "Variant Inventory Policy",
+                         "Variant Fulfillment Service", "Variant Price", "Variant Requires Shipping", "Variant Taxable",
+                         "Image Src", "Image Position", "Gift Card", "Google Shopping / Condition", "Google Shopping / Custom Product", "Variant Weight Unit", "Status"])
         for product_id, product in products.items():
-            writer.writerow([
-                products[product_id]['url'][1:],
-                products[product_id]['title'],
-                "", #desc
-                "","","",
-                products[product_id]['pageTitle'],
-                "",
-                "","","","","","",
-                product_id,
-                "","",
-                products[product_id]['inventory'],
-                "", "",
-                products[product_id]['price'],
-                ' ; '.join(products[product_id]['images']),
-            ])
+            for i in range(len(products[product_id]['images'])):
+                if i == 0:
+                    writer.writerow([
+                        products[product_id]['url'][1:],
+                        products[product_id]['title'],
+                        "", #desc
+                        "Green4Life","Home & Garden","Artificial plants",
+                        products[product_id]['pageTitle'],
+                        "TRUE",
+                        product_id,
+                        "shopify",
+                        products[product_id]['inventory'],
+                        "deny","manual",
+                        products[product_id]['price'],
+                        "TRUE","FALSE",
+                        products[product_id]['images'][i],
+                        "1","FALSE","new","FALSE","g","draft"
+                    ])
+                else:
+                    writer.writerow([
+                        products[product_id]['url'][1:],
+                        "",
+                        "",  # desc
+                        "Green4Life", "Home & Garden", "Artificial plants",
+                        "",
+                        "",
+                        "",
+                        "shopify",
+                        "",
+                        "deny", "manual",
+                        "",
+                        "TRUE", "FALSE",
+                        products[product_id]['images'][i],
+                        "1", "FALSE", "new", "FALSE", "g", "draft"
+                    ])
         f.close()
 
         logging.info(f'Going to sleep for {run_every_x_hours} hours, then restart')
-        time.sleep(run_every_x_hours * 60 * 60)
+        #time.sleep(run_every_x_hours * 60 * 60)
         exit()
 
