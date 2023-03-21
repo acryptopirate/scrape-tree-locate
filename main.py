@@ -54,24 +54,24 @@ if __name__ == '__main__':
     tree_locate_graph = 'https://store.treelocate.com/api/graph'
     products_per_page = 18
     run_every_x_hours = 6
-    sleep_interval = 0
+    sleep_interval = 15
     categories = [
-        # "c4830e60-65ec-4d2a-84bf-90d01f03c5a5",
-        # "b0d74de4-8274-4e8c-bc3a-6b6d159cc7df",
-        # "a9c6043d-28e8-41fb-a639-d231047468c4",
-        # "084f614d-9786-4542-bca2-1eafb75f7338",
-        # "366508ba-84c1-4bab-8c46-f3b3c0735781",
-        # "fb2162ea-71d2-4200-b18f-82fa4eab9a71",
-        # "50b4457d-9f7c-4f0b-bb41-b4580382a784",
-        # "2fd200e4-d507-4e8d-bb32-ee05a253c6bd",
-        # "20bd32e6-a757-40e7-a71d-350f97f2d45e",
-        # "028d1118-6cff-4ae6-8066-a3c01059a570",
-        # "40d063a2-4917-4522-9dc9-97ad3b7d97b2",
-        # "d493cb80-0ed0-4543-b1dd-1367114a0e43",
-        # "ec520d06-6bad-4bb4-bfac-94072051f0a3",
-        # "e3337897-d75f-4edf-a4d9-38a462de3c39",
-        # "13f0cc99-d47d-4db8-8a4b-f2916300097b",
-        # "607c8b76-a53c-4a86-9789-e16c39566be3",
+        "c4830e60-65ec-4d2a-84bf-90d01f03c5a5",
+        "b0d74de4-8274-4e8c-bc3a-6b6d159cc7df",
+        "a9c6043d-28e8-41fb-a639-d231047468c4",
+        "084f614d-9786-4542-bca2-1eafb75f7338",
+        "366508ba-84c1-4bab-8c46-f3b3c0735781",
+        "fb2162ea-71d2-4200-b18f-82fa4eab9a71",
+        "50b4457d-9f7c-4f0b-bb41-b4580382a784",
+        "2fd200e4-d507-4e8d-bb32-ee05a253c6bd",
+        "20bd32e6-a757-40e7-a71d-350f97f2d45e",
+        "028d1118-6cff-4ae6-8066-a3c01059a570",
+        "40d063a2-4917-4522-9dc9-97ad3b7d97b2",
+        "d493cb80-0ed0-4543-b1dd-1367114a0e43",
+        "ec520d06-6bad-4bb4-bfac-94072051f0a3",
+        "e3337897-d75f-4edf-a4d9-38a462de3c39",
+        "13f0cc99-d47d-4db8-8a4b-f2916300097b",
+        "607c8b76-a53c-4a86-9789-e16c39566be3",
         "c8990b3f-3ed8-4038-8e6e-530a64023ec0",
     ]
 
