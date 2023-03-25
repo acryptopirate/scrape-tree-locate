@@ -105,8 +105,8 @@ def treelocate_full():
         request_product_list = requests.post(tree_locate_graph, data=product_list_request, headers=headers,
                                              timeout=10, proxies=proxies)
         product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
-        time.sleep(sleep_interval)
         logging.info(f'Sleep for {sleep_interval} sec')
+        time.sleep(sleep_interval)
     logging.info(f'Received detail product info for {len(product_list_data)} items')
     logging.info(f'Searching for all product images. Takes time!')
     for i in range(len(product_list_data)):
@@ -202,8 +202,8 @@ def treelocate_quick():
         request_product_list = requests.post(tree_locate_graph, data=product_list_request, headers=headers,
                                              timeout=10, proxies=proxies)
         product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
-        time.sleep(sleep_interval)
         logging.info(f'Sleep for {sleep_interval} sec')
+        time.sleep(sleep_interval)
     logging.info(f'Received detail product info for {len(product_list_data)} items')
 
     f = open(f'{dir_name}/quick_export.csv', 'w+')
