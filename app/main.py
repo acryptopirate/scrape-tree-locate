@@ -94,6 +94,7 @@ def treelocate_full():
                 break
 
         logging.info(f'Products found in {category_name} {category} : {products_in_category_count}')
+        logging.info(f'Sleep for {sleep_interval} sec')
         time.sleep(sleep_interval)
 
     product_list_data = []
@@ -105,6 +106,7 @@ def treelocate_full():
                                              timeout=10, proxies=proxies)
         product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
         time.sleep(sleep_interval)
+        logging.info(f'Sleep for {sleep_interval} sec')
     logging.info(f'Received detail product info for {len(product_list_data)} items')
     logging.info(f'Searching for all product images. Takes time!')
     for i in range(len(product_list_data)):
@@ -134,6 +136,8 @@ def treelocate_full():
                 if product_page.status_code != 200:
                     logging.info(f'Page ' + products[product_id]['url'] + f' failed to load, status code {product_page.status_code}')
                 else:
+                    logging.info(f'Page ' + products[product_id][
+                        'url'] + f' loaded, status code {product_page.status_code}')
                     soup = BeautifulSoup(product_page.content, 'html.parser')
                     description = soup.find('dl', {'class': 'Details_table-list'}).get_text()
 
@@ -199,6 +203,7 @@ def treelocate_quick():
                                              timeout=10, proxies=proxies)
         product_list_data.extend(json.loads(request_product_list.text)['data']['catalog']['products']['products'])
         time.sleep(sleep_interval)
+        logging.info(f'Sleep for {sleep_interval} sec')
     logging.info(f'Received detail product info for {len(product_list_data)} items')
 
     f = open(f'{dir_name}/quick_export.csv', 'w+')
