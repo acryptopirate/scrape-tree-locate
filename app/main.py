@@ -11,6 +11,7 @@ import numpy
 from fake_useragent import UserAgent
 import csv
 import datetime
+from bs4 import BeautifulSoup
 from pandas import *
 
 app = FastAPI()
@@ -128,10 +129,18 @@ def treelocate_full():
     for product_id, product in products.items():
         for i in range(len(products[product_id]['images'])):
             if i == 0:
+                description = ''
+                product_page = requests.get("https://store.treelocate.com" + products[product_id]['url'])
+                if product_page.status_code != 200:
+                    logging.info(f'Page ' + products[product_id]['url'] + f' failed to load, status code {product_page.status_code}')
+                else:
+                    soup = BeautifulSoup(product_page.content, 'html.parser')
+                    description = soup.find('dl', {'class': 'Details_table-list'}).get_text()
+
                 writer.writerow([
                     products[product_id]['url'][1:],
                     products[product_id]['title'],
-                    "",  # desc
+                    description,
                     "Green4Life", "Home & Garden", "Artificial plants",
                     products[product_id]['pageTitle'],
                     "TRUE",
