@@ -132,7 +132,7 @@ def treelocate_full():
         for i in range(len(products[product_id]['images'])):
             if i == 0:
                 description = ''
-                product_page = requests.get("https://store.treelocate.com" + products[product_id]['url'])
+                product_page = requests.get("https://store.treelocate.com" + products[product_id]['url'], timeout=10)
                 if product_page.status_code != 200:
                     logging.info(f'Page ' + products[product_id]['url'] + f' failed to load, status code {product_page.status_code}')
                 else:
