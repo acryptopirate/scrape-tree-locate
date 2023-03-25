@@ -3,8 +3,8 @@
 Build docker image:
 `docker build --no-cache . -t treelocatebot`
 
-Run scraping
-`docker run --name treel -v archives:/code/archives -it -d --restart=always treelocatebot`
+Run web server
+`docker run --name treel -p 80:80 -it -d --restart=always treelocatebot`
 
 Check running containers
 `docker ps`
