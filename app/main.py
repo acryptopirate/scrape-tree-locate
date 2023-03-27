@@ -120,6 +120,7 @@ def treelocate_full():
         else:
             products[product_list_data[i]['id']]['images'] = []
 
+
     f = open(f'{dir_name}/full_export.csv', 'w+')
     writer = csv.writer(f)
     writer.writerow(["Handle", "Title", "Body(HTML)", "Vendor", "Product Category", "Type", "Tags", "Published",
