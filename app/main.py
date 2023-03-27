@@ -125,7 +125,7 @@ def treelocate_full():
     writer.writerow(["Handle", "Title", "Body(HTML)", "Vendor", "Product Category", "Type", "Tags", "Published",
                      "Variant SKU", "Variant Inventory Tracker", "Variant Inventory Qty",
                      "Variant Inventory Policy",
-                     "Variant Fulfillment Service", "Variant Price", "Variant Requires Shipping", "Variant Taxable",
+                     "Variant Fulfillment Service", "Variant Cost", "Variant Requires Shipping", "Variant Taxable",
                      "Image Src", "Image Position", "Gift Card", "Google Shopping / Condition",
                      "Google Shopping / Custom Product", "Variant Weight Unit", "Status"])
     for product_id, product in products.items():
@@ -134,10 +134,10 @@ def treelocate_full():
                 description = ''
                 product_page = requests.get("https://store.treelocate.com" + products[product_id]['url'], timeout=10)
                 if product_page.status_code != 200:
-                    logging.info(f'Page ' + products[product_id]['url'] + f' failed to load, status code {product_page.status_code}')
+                    logging.info(f'{product_page.status_code} ' + products[product_id]['url'] + f' failed to load ')
                 else:
-                    logging.info(f'Page ' + products[product_id][
-                        'url'] + f' loaded, status code {product_page.status_code}')
+                    logging.info(f'{product_page.status_code} ' + products[product_id][
+                        'url'] + f' OK')
                     soup = BeautifulSoup(product_page.content, 'html.parser')
                     description = soup.find('dl', {'class': 'Details_table-list'}).get_text()
 
@@ -208,7 +208,7 @@ def treelocate_quick():
 
     f = open(f'{dir_name}/quick_export.csv', 'w+')
     writer = csv.writer(f)
-    writer.writerow(["Variant SKU", "Variant Inventory Qty", "Variant Price"])
+    writer.writerow(["Variant SKU [ID]", "Variant Inventory Qty", "Variant Cost"])
 
     for i in range(len(product_list_data)):
         logging.info(f'{i + 1}/{len(product_list_data)}')
